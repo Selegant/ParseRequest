@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css"/>
+<script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<body>
+<input style="width: 1000px;height: 20px" type="text" id="url"/>
+<br/>
+<br/>
+<input type="button" value="提交" onclick="submitUrl()"/>
+<br/>
+<p id="result"></p>
+</body>
+<script type="text/javascript">
+    function submitUrl() {
+        var data = {};
+        data.url=$("#url").val();
+        $.ajax({
+            url : '/sendPost',
+            type : 'post',
+            data : data,
+            dataType : 'html',
+            ifModified : true,
+            cache : false,
+            success : function(data) {
+                $("#result").html(data);
+            }
+        });
+    }
+
+</script>
+</html>
