@@ -3,10 +3,7 @@ package com.example.http.service;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.util.List;
 import java.util.Map;
 
@@ -152,6 +149,16 @@ public class WebServiceHttp {
         String result = "";
         BufferedReader in = null;
         try {
+            StringBuilder builder=new StringBuilder();
+            String[] params=param.split("&");
+            for (String str:params
+                    ) {
+                String[] strings=str.split("=");
+                String encoder=URLEncoder.encode(strings[1],"UTF-8");
+                builder.append(strings[0]).append("=").append(encoder).append("&");
+            }
+            builder.delete(builder.length()-1,builder.length());
+            param=builder.toString();
             String urlNameString = url + "?" + param;
             URL realUrl = new URL(urlNameString);
             // 打开和URL之间的连接

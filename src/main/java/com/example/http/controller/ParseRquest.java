@@ -22,24 +22,35 @@ public class ParseRquest {
 
 
     @RequestMapping(value = "/runApi")
-    public String runApi() {
+    public String runApi(Model model) {
         return "RunApi";
     }
 
 
-    @RequestMapping(value = "/sendPost")
+    @RequestMapping(value = "/sendGet")
     @ResponseBody
-    public String sendPost(String url){
+    public String sendGet(String url){
         System.out.println(url);
         StringBuilder builder=new StringBuilder();
         String[] urls=url.split("\\?");
+        String sendUrl=urls[0];
+        String arguments=urls[1];
+        String type="GET";
+        String result=WebServiceHttp.sendGet(sendUrl,arguments);
+        result=template(url,sendUrl,arguments,type,result);
+        return result;
+    }
+
+
+    public static String template(String url,String sendUrl,String arguments,String type,String result){
+        StringBuilder builder=new StringBuilder();
         builder.append("**请求URL：** ");
         builder.append("<br/>");
-        builder.append("- ` "+urls[0]+" `");
+        builder.append("- ` "+sendUrl+" `");
         builder.append("<br/><br/>");
         builder.append("**请求方式：**");
         builder.append("<br/>");
-        builder.append("- POST ");
+        builder.append("- "+type+" ");
         builder.append("<br/><br/>");
         builder.append("**参数：**");
         builder.append("<br/><br/>");
@@ -47,9 +58,9 @@ public class ParseRquest {
         builder.append("<br/>");
         builder.append("|:----    |:---|:----- |-----   |");
         builder.append("<br/>");
-        String[] params=urls[1].split("&");
+        String[] params=arguments.split("&");
         for (String param:params
-             ) {
+                ) {
             String[] str=param.split("=");
             builder.append("|   ").append(str[0]).append("   |   ");
             builder.append("是").append("    |   ");
@@ -65,24 +76,32 @@ public class ParseRquest {
             builder.append("<br/><br/>");
             builder.append("```");
             builder.append("<br/><br/>");
-            String result=WebServiceHttp.readContentFromPost(urls[0],urls[1]);
+            builder.append("<xmp>");
             builder.append(formatJson(result));
+            builder.append("</xmp>");
             builder.append("<br/><br/>");
             builder.append("```");
             builder.append("<br/>");
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        System.out.println(builder.toString());
-
         return  builder.toString();
     }
 
+
+
     public static void main(String[] args) throws Exception {
-        String url="https://api.weixin.qq.com/cgi-bin/token";
-        String param="grant_type=client_credential&appid=wx02c813fe80e4cadb&secret=4d5eb3c0b331821da0145fd7812944e6";
-        String result=WebServiceHttp.sendGet(url,param);
-        System.out.println(result);
+        String param="user=341000&pass=qLb930mVRq&aac002=342401199010178515&aac003=查全义&aab301=3670";
+        StringBuilder builder=new StringBuilder();
+        String[] params=param.split("&");
+        for (String str:params
+                ) {
+            String[] strings=str.split("=");
+            String encoder=URLEncoder.encode(strings[1],"UTF-8");
+            builder.append(strings[0]).append("=").append(encoder).append("&");
+        }
+        builder.delete(builder.length()-1,builder.length());
+        System.out.println(builder.toString());
     }
 
     /**
@@ -98,25 +117,25 @@ public class ParseRquest {
             char ch = content.charAt(index);
             if(ch == '{' || ch == '['){
                 sb.append(ch);
-                sb.append("<br/>");
+                sb.append("\n");
                 count++;
                 for (int i = 0; i < count; i++) {
-                    sb.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+                    sb.append("\t");
                 }
             }
             else if(ch == '}' || ch == ']'){
-                sb.append("<br/>");
+                sb.append("\n");
                 count--;
                 for (int i = 0; i < count; i++) {
-                    sb.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+                    sb.append("\t");
                 }
                 sb.append(ch);
             }
             else if(ch == ','){
                 sb.append(ch);
-                sb.append("<br/>");
+                sb.append("\n");
                 for (int i = 0; i < count; i++) {
-                    sb.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+                    sb.append("\t");
                 }
             }
             else {
