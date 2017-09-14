@@ -29,18 +29,41 @@ public class ParseRquest {
 
     @RequestMapping(value = "/sendGet")
     @ResponseBody
-    public String sendGet(String url){
+    public String sendGet(String url,String coding){
         System.out.println(url);
-        StringBuilder builder=new StringBuilder();
-        String[] urls=url.split("\\?");
-        String sendUrl=urls[0];
-        String arguments=urls[1];
+        String sendUrl="";
+        String arguments="";
+        if(url.contains("?")){
+            String[] urls=url.split("\\?");
+            sendUrl=urls[0];
+            arguments=urls[1];
+        }else{
+            sendUrl=url;
+        }
         String type="GET";
-        String result=WebServiceHttp.sendGet(sendUrl,arguments);
+        String result=WebServiceHttp.sendGet(sendUrl,arguments,coding);
         result=template(url,sendUrl,arguments,type,result);
         return result;
     }
 
+    @RequestMapping(value = "/sendPost")
+    @ResponseBody
+    public String sendPost(String url,String coding){
+        System.out.println(url);
+        String sendUrl="";
+        String arguments="";
+        if(url.contains("?")){
+            String[] urls=url.split("\\?");
+            sendUrl=urls[0];
+            arguments=urls[1];
+        }else{
+            sendUrl=url;
+        }
+        String type="POST";
+        String result=WebServiceHttp.sendPost(sendUrl,arguments,coding);
+        result=template(url,sendUrl,arguments,type,result);
+        return result;
+    }
 
     public static String template(String url,String sendUrl,String arguments,String type,String result){
         StringBuilder builder=new StringBuilder();
@@ -72,11 +95,13 @@ public class ParseRquest {
             builder.append("<br/><br/>");
             builder.append("**返回示例**");
             builder.append("<br/><br/>");
-            builder.append(url);
-            builder.append("<br/><br/>");
-            builder.append("```");
-            builder.append("<br/><br/>");
             builder.append("<xmp>");
+            builder.append(url);
+            builder.append("\n\n");
+            builder.append("</xmp>");
+            builder.append("```");
+            builder.append("<xmp>");
+            builder.append("\n\n");
             builder.append(formatJson(result));
             builder.append("</xmp>");
             builder.append("<br/><br/>");
@@ -88,6 +113,38 @@ public class ParseRquest {
         return  builder.toString();
     }
 
+
+    public static String template(String url,String sendUrl,String type,String result){
+        StringBuilder builder=new StringBuilder();
+        builder.append("**请求URL：** ");
+        builder.append("<br/>");
+        builder.append("- ` "+sendUrl+" `");
+        builder.append("<br/><br/>");
+        builder.append("**请求方式：**");
+        builder.append("<br/>");
+        builder.append("- "+type+" ");
+        builder.append("<br/><br/>");
+        try {
+            builder.append("<br/><br/>");
+            builder.append("**返回示例**");
+            builder.append("<br/><br/>");
+            builder.append("<xmp>");
+            builder.append(url);
+            builder.append("\n\n");
+            builder.append("</xmp>");
+            builder.append("```");
+            builder.append("<xmp>");
+            builder.append("\n\n");
+            builder.append(formatJson(result));
+            builder.append("</xmp>");
+            builder.append("<br/><br/>");
+            builder.append("```");
+            builder.append("<br/>");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  builder.toString();
+    }
 
 
     public static void main(String[] args) throws Exception {
