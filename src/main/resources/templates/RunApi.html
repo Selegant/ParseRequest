@@ -9,10 +9,20 @@
 <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <body>
-<input  class="enjoy-input" style="width: 1000px;height: 20px" type="text" id="url"/>
+<input  class="enjoy-input" type="text" id="url"/>
 <br/>
 <br/>
-<input type="button" class="button" value="发送get请求" onclick="sendGet()"/>
+<input type="button" class="button" value="发送GET请求" onclick="sendGet()"/>
+<input type="button" class="button" value="发送POST请求" onclick="sendPost()"/>
+<select class="selectParam" id="charsetType">
+    <option value="UTF-8">UTF-8</option>
+    <option value="GBK">GBK</option>
+</select>
+<select class="selectParam" id="encryptType">
+    <option value="0">不加密</option>
+    <option value="1">黄山加密</option>
+    <option value="2">衢州加密</option>
+</select>
 <br/>
 <p id="result"></p>
 </body>
@@ -20,6 +30,8 @@
     function sendGet() {
         var data = {};
         data.url=$("#url").val();
+        data.coding = $('#charsetType').val();
+        data.type = $('#encryptType').val();
         $.ajax({
             url : '/sendGet',
             type : 'post',
@@ -29,6 +41,25 @@
             cache : false,
             success : function(data) {
                 console.log(data);
+                $("#result").html(data);
+            }
+        });
+    }
+
+    function sendPost() {
+        var data = {};
+        data.url=$("#url").val();
+        data.coding = $('#charsetType').val();
+        data.type = $('#encryptType').val();
+        $.ajax({
+            url : '/sendPost',
+            type : 'post',
+            data : data,
+            dataType : 'html',
+            ifModified : true,
+            cache : false,
+            success : function(data) {
+                //console.log(data);
                 $("#result").html(data);
             }
         });
