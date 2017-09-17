@@ -9,6 +9,15 @@ import org.springframework.stereotype.Component;
 public class Config {
     public String aesKey;
     public String aesIv;
+
+    public Config() {
+    }
+
+    public Config(String aesKey, String aesIv) {
+        this.aesKey = aesKey;
+        this.aesIv = aesIv;
+    }
+
     public String getAesKey() {
         return aesKey;
     }

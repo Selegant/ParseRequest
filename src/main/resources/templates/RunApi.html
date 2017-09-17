@@ -12,8 +12,8 @@
 <input  class="enjoy-input" type="text" id="url"/>
 <br/>
 <br/>
-<input type="button" class="button" value="发送GET请求" onclick="sendGet()"/>
-<input type="button" class="button" value="发送POST请求" onclick="sendPost()"/>
+<input type="button" class="button" value="发送GET请求" onclick="sendRequest(1)"/>
+<input type="button" class="button" value="发送POST请求" onclick="sendRequest(2)"/>
 <select class="selectParam" id="charsetType">
     <option value="UTF-8">UTF-8</option>
     <option value="GBK">GBK</option>
@@ -27,13 +27,14 @@
 <p id="result"></p>
 </body>
 <script type="text/javascript">
-    function sendGet() {
+    function sendRequest(methodType) {
         var data = {};
         data.url=$("#url").val();
         data.coding = $('#charsetType').val();
         data.type = $('#encryptType').val();
+        data.methodType=methodType;
         $.ajax({
-            url : '/sendGet',
+            url : '/sendRequest',
             type : 'post',
             data : data,
             dataType : 'html',

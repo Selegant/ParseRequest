@@ -66,7 +66,7 @@ public class AESCipher {
 		return result;
     }
     public static void main(String[] args) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IOException, DecoderException {
-    	 String s= "{\"device_type\":\"2\",\"app_version\":\"1.0\",\"access_token\":\"4647b4f7-1d23-4fbe-907e-af68bd4b6732\"}";
+    	 String s= "{\"aac003\":\"查全义\",\"aab301\":\"3670\",\"user\":\"341000\",\"pass\":\"qLb930mVRq\",\"aac002\":\"342401199010178515\"}";
     	 String s1= AESCipher.aesEncryptString(s,"Hu08an_gDSha_n23","Da08_Dbay23_Bhan");
     	 //String s1="2ad6a6a35224b27495f36d65ce433a3d626270a45327772fe1a1724ff6e6f7dd462d6a95a3305b35fbf2bb7df069ec12c95c6e180f84c51e0baa64205b896a2ddfd4bfea5ca86e27b877e2ec70274613";
          System.out.println(s1);
