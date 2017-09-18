@@ -1,10 +1,19 @@
 package com.example.http.service;
 
+import com.example.http.common.ConstantConfig;
+import com.example.http.util.AESCipher;
 import com.example.http.util.DisableSSLCertificateCheckUtil;
+import org.apache.commons.codec.DecoderException;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.*;
 import java.net.*;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
@@ -149,5 +158,6 @@ public class WebServiceHttp {
         }
         return result;
     }
+
 
 }

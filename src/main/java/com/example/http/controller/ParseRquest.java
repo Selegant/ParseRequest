@@ -2,12 +2,10 @@ package com.example.http.controller;
 
 import com.example.http.service.Analysis;
 import com.example.http.service.HttpRequest;
-import com.example.http.util.AESCipher;
 import com.example.http.util.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 
 import org.springframework.context.annotation.PropertySource;
@@ -31,14 +29,6 @@ public class ParseRquest {
     @Autowired
     Analysis analysis;
 
-    @Value("quAesKey")
-    private String qzAesKey;
-    @Value("qzAesIv")
-    private String qzAesIv;
-    @Value("hsAeskey")
-    private String hsAeskey;
-    @Value("hsAesIv")
-    private String hsAesIv;
 
     @RequestMapping(value = "/runApi")
     public String runApi(Model model) {
@@ -73,26 +63,10 @@ public class ParseRquest {
         try {
             if ("1".equals(methodType)) {
                 result = request.sendGet(url, coding, arguements,type);
-                switch (type) {
-                    case "0":
-                    case "1":
-                        result = AESCipher.aesDecryptString(result, hsAeskey, hsAesIv);
-                    case "2":
-                        result = AESCipher.aesDecryptString(result, qzAesKey, qzAesIv);
-                    default:
-                        break;
-                }
+                request.switchType(type,result);
             } else if ("2".equals(methodType)) {
                 result = request.sendPost(url, coding, arguements,type);
-                switch (type) {
-                    case "0":
-                    case "1":
-                        result = AESCipher.aesDecryptString(result, hsAeskey, hsAesIv);
-                    case "2":
-                        result = AESCipher.aesDecryptString(result, qzAesKey, qzAesIv);
-                    default:
-                        break;
-                }
+                request.switchType(type,result);
             }
         } catch (Exception e) {
             e.fillInStackTrace();
@@ -101,24 +75,5 @@ public class ParseRquest {
             return result;
         }
     }
-
-
-
-
-
-    public static void main(String[] args) throws Exception {
-//        String param="user=341000&pass=qLb930mVRq&aac002=342401199010178515&aac003=查全义&aab301=3670";
-//        StringBuilder builder=new StringBuilder();
-//        String[] params=param.split("&");
-//        for (String str:params
-//                ) {
-//            String[] strings=str.split("=");
-//            String encoder=URLEncoder.encode(strings[1],"UTF-8");
-//            builder.append(strings[0]).append("=").append(encoder).append("&");
-//        }
-//        builder.delete(builder.length()-1,builder.length());
-//        System.out.println(builder.toString());
-    }
-
 
 }

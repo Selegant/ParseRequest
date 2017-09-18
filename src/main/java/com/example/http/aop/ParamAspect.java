@@ -1,5 +1,6 @@
 package com.example.http.aop;
 
+import com.example.http.common.ConstantConfig;
 import com.example.http.util.AESCipher;
 import org.apache.commons.collections.map.HashedMap;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -11,7 +12,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+
+import static com.example.http.common.ConstantConfig.hsAesIv;
+import static com.example.http.common.ConstantConfig.hsAesKey;
+import static com.example.http.common.ConstantConfig.qzAesKey;
+import static com.example.http.common.ConstantConfig.qzAesIv;
 
 /**
  * Created by Selegant on 2017/9/16.
@@ -22,13 +35,7 @@ import java.util.Map;
 public class ParamAspect {
     private static final Logger logger = LoggerFactory.getLogger(ParamAspect.class);
 
-    private String qzAesKey="Hu08an_gDSha_n23";
 
-    private String qzAesIv="Da08_Dbay23_Bhan";
-
-    private String hsAeskey="Hu08an_gDSha_n23";
-
-    private String hsAesIv="Da08_Dbay23_Bhan";
 
     @Pointcut("execution(* com.example.http.controller.ParseRquest.sendRequest(..))")
     public void sendRequest() {
@@ -63,7 +70,7 @@ public class ParamAspect {
                     paramMap.put(values[0],values[1]);
                 }
                 JSONObject object=new JSONObject(paramMap);
-                String cipher= AESCipher.aesEncryptString(object.toString(),hsAeskey,hsAesIv);
+                String cipher= AESCipher.aesEncryptString(object.toString(), hsAesKey,hsAesIv);
                 url=urls[0]+"?param="+cipher;
                 args[2] = url;
             }
