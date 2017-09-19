@@ -1,5 +1,6 @@
 package com.example.http.service.impl;
 
+import com.example.http.common.ConstantConfig;
 import com.example.http.service.HttpRequest;
 import com.example.http.service.WebServiceHttp;
 import com.example.http.util.AESCipher;
@@ -7,6 +8,7 @@ import com.example.http.util.Template;
 import org.apache.commons.codec.DecoderException;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.BadPaddingException;
@@ -17,15 +19,14 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-import static com.example.http.common.ConstantConfig.hsAesIv;
-import static com.example.http.common.ConstantConfig.hsAesKey;
-import static com.example.http.common.ConstantConfig.qzAesKey;
-import static com.example.http.common.ConstantConfig.qzAesIv;
 /**
  * Created by WT on 2017/9/15.
  */
 @Service
 public class HttpRequestImpl implements HttpRequest{
+
+    @Autowired
+    ConstantConfig config;
 
     @Override
     public String sendGet(String url, String coding,String arguements,String type) {
@@ -58,7 +59,7 @@ public class HttpRequestImpl implements HttpRequest{
         if(url.contains("?")){
             String[] urls=url.split("\\?");
             sendUrl=urls[0];
-            argument=arguements;
+            argument=urls[1];
         }else{
             sendUrl=url;
         }
@@ -69,7 +70,7 @@ public class HttpRequestImpl implements HttpRequest{
         }catch (Exception e){
             e.fillInStackTrace();
         }
-        result=Template.template(url,sendUrl,argument,sendType,result);
+        result=Template.template(url,sendUrl,arguements,sendType,result);
         return result;
     }
 
@@ -77,11 +78,11 @@ public class HttpRequestImpl implements HttpRequest{
         if("1".equals(type)){
             JSONObject object=new JSONObject(result);
             result=object.getString("dataBack");
-            result= AESCipher.aesDecryptString(result,hsAesKey,hsAesIv);
+            result= AESCipher.aesDecryptString(result,config.getHsAesKey(),config.getHsAesIv());
         }else if("2".equals(type)){
             JSONObject object=new JSONObject(result);
             result=object.getString("dataBack");
-            result=AESCipher.aesDecryptString(result,qzAesKey,qzAesIv);
+            result=AESCipher.aesDecryptString(result,config.getQzAesKey(),config.getQzAesIv());
         }
         return result;
     }
@@ -92,10 +93,10 @@ public class HttpRequestImpl implements HttpRequest{
             case "0":
                 return  result;
             case "1":
-                result = AESCipher.aesDecryptString(result, hsAesKey, hsAesIv);
+                result = AESCipher.aesDecryptString(result, config.getHsAesKey(), config.getHsAesIv());
                 return  result;
             case "2":
-                result = AESCipher.aesDecryptString(result, qzAesKey, qzAesIv);
+                result = AESCipher.aesDecryptString(result, config.getQzAesKey(), config.getQzAesIv());
                 return  result;
             default:
                 return  result;

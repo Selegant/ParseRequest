@@ -1,14 +1,12 @@
 package com.example.http.controller;
 
-import com.example.http.service.Analysis;
+import com.example.http.common.ConstantConfig;
 import com.example.http.service.HttpRequest;
-import com.example.http.util.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +17,12 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @ComponentScan("com.example.http")
-@PropertySource("classpath:config/config.properties")
 public class ParseRquest {
     private Logger logger = LoggerFactory.getLogger(ParseRquest.class);
     @Autowired
-    Config config;
+    ConstantConfig config;
     @Autowired
     HttpRequest request;
-    @Autowired
-    Analysis analysis;
 
 
     @RequestMapping(value = "/runApi")
@@ -39,14 +34,8 @@ public class ParseRquest {
     @RequestMapping(value = "/run")
     @ResponseBody
     public String run(Model model) {
-        String s= "{\"device_type\":\"2\",\"app_version\":\"1.0\",\"access_token\":\"4647b4f7-1d23-4fbe-907e-af68bd4b6732\"}";
-        config=new Config();
-        try {
-            s=analysis.enCode(s,config);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return s;
+        System.out.println(config.getHsAesIv());
+        return config.getHsAesIv();
     }
 
     /**
