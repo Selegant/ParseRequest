@@ -111,6 +111,20 @@ public class WebServiceHttp {
         BufferedReader in = null;
         String result = "";
         try {
+            if(param!=null&&!param.isEmpty()){
+                StringBuilder builder=new StringBuilder();
+                String[] params=param.split("&");
+                for (String str:params
+                        ) {
+                    String[] strings=str.split("=");
+                    String encoder=URLEncoder.encode(strings[1],"UTF-8");
+                    builder.append(strings[0]).append("=").append(encoder).append("&");
+                }
+                builder.delete(builder.length()-1,builder.length());
+                param=builder.toString();
+            }else{
+                param=url;
+            }
             DisableSSLCertificateCheckUtil.disableChecks();
             URL realUrl = new URL(url);
             // 打开和URL之间的连接
