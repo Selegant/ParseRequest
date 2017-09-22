@@ -6,10 +6,14 @@
 </head>
 <link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css"/>
 <link rel="stylesheet" href="/css/enjoy.css"/>
+<link href="css/bootstrap.css" rel="stylesheet"/>
+<link href="layer/mobile/need/layer.css" rel="stylesheet"/>
 <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <body>
-<input  class="enjoy-input" type="text" id="url"/>
+<input  class="enjoy-input" placeholder="请输入请求地址" type="text" id="url"/>
 <br/>
 <br/>
 <input type="button" class="button" value="发送GET请求" onclick="sendRequest(1)"/>
@@ -24,6 +28,13 @@
     <option value="2">衢州加密</option>
 </select>
 <br/>
+<div class="col-sm-4">
+    <div class="list-group">
+        <ul>
+            <li class="list-group-item">你的名字</li>
+        </ul>
+    </div>
+</div>
 <p id="result"></p>
 </body>
 <script type="text/javascript">
@@ -33,6 +44,10 @@
         data.coding = $('#charsetType').val();
         data.type = $('#encryptType').val();
         data.methodType=methodType;
+        if(data.url==null||data.url==''){
+            layer.alert("请输入请求地址",{icon:2});
+            return;
+        }
         $.ajax({
             url : '/sendRequest',
             type : 'post',
@@ -42,25 +57,6 @@
             cache : false,
             success : function(data) {
                 console.log(data);
-                $("#result").html(data);
-            }
-        });
-    }
-
-    function sendPost() {
-        var data = {};
-        data.url=$("#url").val();
-        data.coding = $('#charsetType').val();
-        data.type = $('#encryptType').val();
-        $.ajax({
-            url : '/sendPost',
-            type : 'post',
-            data : data,
-            dataType : 'html',
-            ifModified : true,
-            cache : false,
-            success : function(data) {
-                //console.log(data);
                 $("#result").html(data);
             }
         });

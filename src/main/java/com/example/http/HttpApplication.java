@@ -1,3 +1,4 @@
+/*
 package com.example.http;
 
 import org.springframework.boot.SpringApplication;
@@ -19,3 +20,4 @@ public class HttpApplication extends SpringBootServletInitializer {
 		System.out.println("HelloWorld");
 	}
 }
+*/

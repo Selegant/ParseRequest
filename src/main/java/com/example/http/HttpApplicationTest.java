@@ -2,6 +2,7 @@ package com.example.http;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @SpringBootApplication
 @RestController
-public class HttpApplicationTest {
+public class HttpApplicationTest  {
     public static void main(String[] args) {
         SpringApplication.run(HttpApplicationTest.class, args);
     }

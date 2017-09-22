@@ -1,5 +1,6 @@
 package com.example.http.controller;
 
+import com.example.http.bean.ResultSupport;
 import com.example.http.common.ConstantConfig;
 import com.example.http.service.HttpRequest;
 import org.slf4j.Logger;
@@ -10,6 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,6 +31,13 @@ public class ParseRquest {
 
     @RequestMapping(value = "/runApi")
     public String runApi(Model model) {
+        List<String> list=new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4");
+        list.add("5");
+        model.addAllAttributes(list);
         return "RunApi";
     }
 
@@ -47,7 +58,11 @@ public class ParseRquest {
      */
     @RequestMapping(value = "/sendRequest")
     @ResponseBody
-    public String sendRequest(String methodType, String type, String url, String coding, String arguements) {
+    public String sendRequest(
+            String methodType,
+            String type, String url,
+            String coding,
+            String arguements) {
         String result = "";
         try {
             if ("1".equals(methodType)) {
