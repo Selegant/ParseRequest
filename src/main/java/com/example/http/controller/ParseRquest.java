@@ -69,15 +69,13 @@ public class ParseRquest {
                 result = request.sendGet(url, coding, arguements,type);
                 request.switchType(type,result);
             } else if ("2".equals(methodType)) {
-                result = request.sendPost(url, coding, arguements,type);
-                request.switchType(type,result);
+                result = request.sendPost(url, coding, arguements, type);
+                request.switchType(type, result);
             }
         } catch (Exception e) {
             e.fillInStackTrace();
         }
-        finally {
-            return result;
-        }
+        return  result;
     }
 
 }
