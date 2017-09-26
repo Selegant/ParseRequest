@@ -45,7 +45,12 @@ public class WebServiceHttp {
                 for (String str:params
                         ) {
                     String[] strings=str.split("=");
-                    String encoder=URLEncoder.encode(strings[1],"UTF-8");
+                    String encoder="";
+                    if(strings.length>=2){
+                        encoder=URLEncoder.encode(strings[1],"UTF-8");
+                    }else{
+                        encoder=URLEncoder.encode("","UTF-8");
+                    }
                     builder.append(strings[0]).append("=").append(encoder).append("&");
                 }
                 builder.delete(builder.length()-1,builder.length());
@@ -117,7 +122,12 @@ public class WebServiceHttp {
                 for (String str:params
                         ) {
                     String[] strings=str.split("=");
-                    String encoder=URLEncoder.encode(strings[1],"UTF-8");
+                    String encoder="";
+                    if(strings.length>=2){
+                        encoder=URLEncoder.encode(strings[1],"UTF-8");
+                    }else{
+                        encoder=URLEncoder.encode("","UTF-8");
+                    }
                     builder.append(strings[0]).append("=").append(encoder).append("&");
                 }
                 builder.delete(builder.length()-1,builder.length());

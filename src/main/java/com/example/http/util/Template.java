@@ -24,7 +24,7 @@ public class Template {
         builder.append("<br/><br/>");
         builder.append("** 版本适用：**");
         builder.append("<br/>");
-        builder.append("    引入： 【Android】 V1.5 【iOS】 V1.4");
+        builder.append("    引入： 【Android】    【iOS】    ");
         builder.append("<br/>");
         builder.append("    废弃： --");
         builder.append("<br/>");
@@ -103,7 +103,7 @@ public class Template {
         builder.append("<br/>");
         builder.append("** 版本适用：**");
         builder.append("<br/>");
-        builder.append("    引入： 【Android】 V1.5 【iOS】 V1.4");
+        builder.append("    引入： 【Android】     【iOS】    ");
         builder.append("<br/>");
         builder.append("    废弃： --");
         builder.append("<br/>");
